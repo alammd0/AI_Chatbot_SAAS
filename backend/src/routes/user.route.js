@@ -1,20 +1,64 @@
-
 import express from "express";
 import {
     registerUser,
+    verifyEmail,
     loginUser,
-    forgetPassword,
-    resetPassword,
-    verifyEmail
-} from "../controllers/auth.controller.js"
+    logoutUser,
+    forgotPassword,
+    resetPassword
+} from "../controllers/user.controller.js";
+
+const userRoutes = express.Router();
+
+/**
+ * @route Post /api/user/register
+ * @access Public
+ * @desc Register a new user
+ */
+
+userRoutes.post("/register", registerUser);
+
+/**
+ * @route Post /api/user/verify-email 
+ * @access Public
+ * @desc Verify a user's email
+ */
+
+userRoutes.post("/verify-email", verifyEmail);
 
 
-const authRoutes = express.Router();
+/**
+ * @route Post /api/user/login
+ * @access Public
+ * @desc Login a user
+ */
 
-authRoutes.post("/register", registerUser);
-authRoutes.post("/verify-email", verifyEmail);
-authRoutes.post("/login", loginUser);
-authRoutes.post("/forget-password", forgetPassword);
-authRoutes.put("/reset-password", resetPassword)
+userRoutes.post("/login", loginUser);
 
-export default authRoutes;
+
+/**
+ * @route Post /api/user/logout
+ * @access Public
+ * @desc Logout a user
+ */
+
+userRoutes.post("/logout", logoutUser);
+
+
+/**
+ * @route Post /api/user/forgot-password
+ * @access Public
+ * @desc Send a reset password email
+ */
+
+userRoutes.post("/forgot-password", forgotPassword);
+
+/** 
+ * @route Post /api/user/reset-password
+ * @access Public
+ * @desc Reset a user's password
+ */
+
+userRoutes.put("/reset-password", resetPassword);
+
+export default userRoutes;
