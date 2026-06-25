@@ -24,7 +24,7 @@ userRoutes.post("/register", registerUser);
  * @desc Verify a user's email
  */
 
-userRoutes.post("/verify-email", verifyEmail);
+userRoutes.post("/verify-email/:token", verifyEmail);
 
 
 /**
@@ -59,6 +59,6 @@ userRoutes.post("/forgot-password", forgotPassword);
  * @desc Reset a user's password
  */
 
-userRoutes.put("/reset-password", resetPassword);
+userRoutes.put("/reset-password/:token", resetPassword);
 
 export default userRoutes;

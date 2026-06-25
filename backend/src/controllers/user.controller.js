@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import sendEmail from "../utils/sendEmail.js";
+import bcrypt from "bcrypt";
 
 /**
  * @route Post /api/user/register
@@ -68,11 +69,10 @@ export const registerUser = async (req, res) => {
     }
     catch (error) {
         return res.status(500).json({
-            message : "Something went wrong"
+            message : "Something went wrong" + error
         })
     }
 }
-
 
 
 /**
