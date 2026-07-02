@@ -42,7 +42,7 @@ export const registerUser = async (req, res) => {
 
         const subject = "Verify your email";
         const text = `Hello ${name}, Please click on the link below to verify your email address.`;
-        const html = `<a href="http://localhost:3000/api/user/verify-email/${token}">Verify Email</a>`;
+        const html = `<a href="http://localhost:5173/verify-email/${token}">Verify Email</a>`;
 
         await sendEmail(email, subject, text, html);
 
@@ -176,7 +176,8 @@ export const loginUser = async (req, res) => {
                 name : user.name,
                 username : user.username,
                 email : user.email
-            }
+            },
+            token : token
         })
     }
     catch (error) {
