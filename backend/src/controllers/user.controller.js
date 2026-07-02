@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import sendEmail from "../utils/sendEmail.js";
 import bcrypt from "bcrypt";
+import { verifyEmailTemplate } from "../utils/emailTemplate.js";
 
 /**
  * @route Post /api/user/register
@@ -40,9 +41,13 @@ export const registerUser = async (req, res) => {
             expiresIn: "1d"
         });
 
-        const subject = "Verify your email";
-        const text = `Hello ${name}, Please click on the link below to verify your email address.`;
-        const html = `<a href="http://localhost:5173/verify-email/${token}">Verify Email</a>`;
+        const verificationUrl = `http://localhost:5173/verify-email/${token}`;
+
+        const subject = "Verify Your Email Address";
+
+        const text = `Hello ${name}, Please verify your email by clicking this link: ${verificationUrl}`;
+
+        const html = verifyEmailTemplate(name, verificationUrl);
 
         await sendEmail(email, subject, text, html);
 
