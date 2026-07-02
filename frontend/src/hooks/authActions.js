@@ -1,4 +1,5 @@
 
+import { useNavigate } from "react-router";
 import {
     setUser,
     setToken,
@@ -17,7 +18,7 @@ import {
 } from "../services/auth.api"
 
 
-export const registerUser = (name, username, email, password) => async (dispatch) => {
+export const createUser = (name, username, email, password, navigate) => async (dispatch) => {
     try {
 
         dispatch(isLoading());
@@ -26,6 +27,10 @@ export const registerUser = (name, username, email, password) => async (dispatch
 
         if(response.status === 201) {
             dispatch(setUser(response.data.user));
+
+            // navigate to login page
+            navigate("/verify-email");
+
             dispatch(isLoading());
         }
         else {
@@ -39,7 +44,7 @@ export const registerUser = (name, username, email, password) => async (dispatch
     }
 }
 
-export const verifyEmail = (token) => async (dispatch) => {
+export const verifyEmailFrontend = (token, navigate) => async (dispatch) => {
     try {
 
         dispatch(isLoading());
@@ -48,6 +53,10 @@ export const verifyEmail = (token) => async (dispatch) => {
 
         if(response.status === 200) {
             dispatch(setToken(response.data.token));
+
+            // navigate to login page
+            navigate("/login");
+
             dispatch(isLoading());
         }
         else {
@@ -60,15 +69,21 @@ export const verifyEmail = (token) => async (dispatch) => {
     }
 }
 
-export const loginUser = (email, password) => async (dispatch) => {
+export const loginUserFrontend = (email, password, navigate) => async (dispatch) => {
     try {
 
         dispatch(isLoading());
 
         const response = await loginUser(email, password);
 
+        console.log(response);
+
         if(response.status === 200) {
             dispatch(setToken(response.data.token));
+
+            // Navigate to Dashboard
+            navigate("/dashboard");
+
             dispatch(isLoading());
         }
         else {
@@ -81,31 +96,77 @@ export const loginUser = (email, password) => async (dispatch) => {
     }
 }
 
-// H/W
-export const logoutUser = () => async (dispatch) => {
-    try {
+// // Done
+// export const logoutUserFrontend = (navigate) => async (dispatch) => {
+//     try {
+//         dispatch(isLoading());
 
-    }catch(error) {
-        dispatch(setError(error));
-    }
-}
+//         const response = await logoutUser();
+
+//         if(response.status === 200) {
+//             dispatch(logout());
+
+//             dispatch(logout())
+
+//             // Navigate to login page again
+//             navigate("/login")
+
+//             dispatch(isLoading());
+//         }
+
+//         else {
+//             dispatch(setError(response.data.message));
+//             dispatch(isLoading());
+//         }
+
+//     }catch(error) {
+//         dispatch(setError(error));
+//     }
+// }
 
 
-// H/W
-export const forgotPassword = (email) => async (dispatch) => {
-    try {
+// // Done
+// export const forgotPasswordFrontend = (email) => async (dispatch) => {
+//     try {
+//         dispatch(isLoading());
 
-    }catch(error) {
-        dispatch(setError(error));
-    }
-}
+//         const response = await forgotPassword(email);
 
 
-// H/W
-export const resetPassword = (token, password, confirmPassword) => async (dispatch) => {
-    try {
+//         if(response.status === 200) {
+//             dispatch(isLoading());
 
-    }catch(error) {
-        dispatch(setError(error));
-    }
-}
+//             // Add a message to the UI
+//             dispatch(setError("Password reset email sent successfully"));
+//         }
+
+//         else {
+//             dispatch(setError(response.data.message));
+//             dispatch(isLoading());
+//         }
+
+
+
+//     }catch(error) {
+//         dispatch(setError(error));
+//     }
+// }
+
+// // Done
+// export const resetPassword = (token, password, confirmPassword, navigate) => async (dispatch) => {
+//     try {
+//         const response = await resetPassword(token, password, confirmPassword);
+
+//         if(response.status === 200) {
+//             dispatch(isLoading());
+//             navigate("/login");
+//             dispatch(setError("Password reset successfully"));
+//         }
+//         else {
+//             dispatch(setError(response.data.message));
+//             dispatch(isLoading());
+//         }
+//     }catch(error) {
+//         dispatch(setError(error));
+//     }
+// }

@@ -1,9 +1,8 @@
+import AuthFrom from "../components/auth/AuthFrom";
 
 
 export default function Login() {
     return (
-        <div>
-            Login
-        </div>
+        <AuthFrom type = "login" />
     )
 }

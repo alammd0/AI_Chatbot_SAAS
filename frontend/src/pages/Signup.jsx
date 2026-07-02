@@ -1,8 +1,7 @@
+import AuthFrom from "../components/auth/AuthFrom";
 
-export default function Signup() {
+export default function Register() {
     return (
-        <div>
-            Signup
-        </div>
+        <AuthFrom type = "register" />
     )
 }
