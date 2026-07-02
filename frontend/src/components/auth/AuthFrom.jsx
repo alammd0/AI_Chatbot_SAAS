@@ -46,6 +46,8 @@ const AuthFrom = ({ type }) => {
 
             const { email, password } = formData;
 
+            console.log(email, password);
+
             dispatch(loginUserFrontend(
                 email,
                 password,
