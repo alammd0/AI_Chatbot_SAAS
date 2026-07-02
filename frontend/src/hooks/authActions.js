@@ -16,6 +16,7 @@ import {
     forgotPassword,
     resetPassword
 } from "../services/auth.api"
+import { toast } from "react-toastify";
 
 
 export const createUser = (name, username, email, password, navigate) => async (dispatch) => {
@@ -74,6 +75,8 @@ export const loginUserFrontend = (email, password, navigate) => async (dispatch)
 
         dispatch(isLoading());
 
+        console.log(email, password);
+
         const response = await loginUser(email, password);
 
         console.log(response);
@@ -126,47 +129,49 @@ export const loginUserFrontend = (email, password, navigate) => async (dispatch)
 
 
 // // Done
-// export const forgotPasswordFrontend = (email) => async (dispatch) => {
-//     try {
-//         dispatch(isLoading());
+export const forgotPasswordFrontend = (email) => async (dispatch) => {
+    try {
+        dispatch(isLoading());
 
-//         const response = await forgotPassword(email);
-
-
-//         if(response.status === 200) {
-//             dispatch(isLoading());
-
-//             // Add a message to the UI
-//             dispatch(setError("Password reset email sent successfully"));
-//         }
-
-//         else {
-//             dispatch(setError(response.data.message));
-//             dispatch(isLoading());
-//         }
+        const response = await forgotPassword(email);
 
 
+        if(response.status === 200) {
+            dispatch(isLoading());
 
-//     }catch(error) {
-//         dispatch(setError(error));
-//     }
-// }
+            // Add a message to the UI
+            toast.success("Password reset email sent successfully");
+            dispatch(isLoading());
+        }
+
+        else {
+            dispatch(setError(response.data.message));
+            dispatch(isLoading());
+        }
+
+
+
+    }catch(error) {
+        dispatch(setError(error));
+    }
+}
 
 // // Done
-// export const resetPassword = (token, password, confirmPassword, navigate) => async (dispatch) => {
-//     try {
-//         const response = await resetPassword(token, password, confirmPassword);
+export const resetPasswordFrontend = (token, password, confirmPassword, navigate) => async (dispatch) => {
+    try {
+        const response = await resetPassword(token, password, confirmPassword);
 
-//         if(response.status === 200) {
-//             dispatch(isLoading());
-//             navigate("/login");
-//             dispatch(setError("Password reset successfully"));
-//         }
-//         else {
-//             dispatch(setError(response.data.message));
-//             dispatch(isLoading());
-//         }
-//     }catch(error) {
-//         dispatch(setError(error));
-//     }
-// }
+        if(response.status === 200) {
+            dispatch(isLoading());
+            navigate("/login");
+            toast.success("Password reset successfully");
+            dispatch(isLoading());
+        }
+        else {
+            dispatch(setError(response.data.message));
+            dispatch(isLoading());
+        }
+    }catch(error) {
+        dispatch(setError(error));
+    }
+}

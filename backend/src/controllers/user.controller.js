@@ -2,7 +2,8 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import sendEmail from "../utils/sendEmail.js";
 import bcrypt from "bcrypt";
-import { verifyEmailTemplate } from "../utils/emailTemplate.js";
+import { verifyEmailTemplate } from "../utils/email_template/emailTemplate.js";
+import { forgotPasswordTemplate } from "../utils/email_template/forgotPasswordTemplate.js";
 
 /**
  * @route Post /api/user/register
@@ -250,13 +251,18 @@ export const forgotPassword = async (req, res) => {
             email : user.email
         }
 
-        const token = await jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "1d"
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+                expiresIn: "1d"
         });
 
-        const subject = "Reset your password";
-        const text = `Hello ${user.name}, Please click on the link below to reset your password.`;
-        const html = `<a href="http://localhost:3000/api/user/reset-password/${token}">Reset Password</a>`;
+        const resetLink = `http://localhost:5173/reset-password/${token}`;
+
+        const subject = "Reset Your Password";
+
+        const text = `Hello ${user.name}, Click the link below to reset your password:
+        ${resetLink}`;
+
+        const html = forgotPasswordTemplate(user.name, resetLink);
 
         await sendEmail(user.email, subject, text, html);
 
